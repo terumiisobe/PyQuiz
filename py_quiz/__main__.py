@@ -95,8 +95,8 @@ class Application(tk.Frame):
         else:
             self.score.set(int(self.score.get()) - 5)
             print "Incorrect!"
-	   
-	
+
+
 
     def load_question(self,top):
 	'''
@@ -112,36 +112,41 @@ class Application(tk.Frame):
             randomindex = random.randint(0,len(self.questions["results"])-1)
             self.question_index.append(randomindex)
             print "Debug:"
-            print self.questions["results"][randomindex]["question"] 
+            print self.questions["results"][randomindex]["question"]
         self.correct_answer = self.questions["results"][randomindex]["correct_answer"] # parse the correct answer from JSON file and store it.
         #print self.correct_answer
         self.answers = self.questions["results"][randomindex]["incorrect_answers"] # parse the other incorrect answers
-        self.answers.append(self.correct_answer) # add all the answers to the list. 
+        self.answers.append(self.correct_answer) # add all the answers to the list.
         self.question.set(self.questions["results"][randomindex]["question"]) # set the question label
-        length=len(self.question.get())  # get the length of the question
-        width=str(100+10*length)	
-        top.geometry(width+"x180")	# change the width of the window according to the length of the question
+
         self.optionA.set(self.answers.pop(random.randrange(len(self.answers)))) # randomly set the option label from the answers list and then remove from that list to avoid repetition
         self.optionB.set(self.answers.pop(random.randrange(len(self.answers))))
         self.optionC.set(self.answers.pop(random.randrange(len(self.answers))))
         self.optionD.set(self.answers.pop(random.randrange(len(self.answers))))
+
+        length_question=len(self.question.get())  # get the length of the question
+        length_answer=len(self.optionC.get()) #get the lenght of one answer
+        lenght_score = len("Score: ") #get the lenght of "Score: "
+        width=str(10+7*(length_question+length_answer+lenght_score))
+        top.geometry(width+"x180+500+300")	# change the width of the window according to the length of the question
+
         self.radioButtonA.deselect()
         self.radioButtonB.deselect()
         self.radioButtonC.deselect()
         self.radioButtonD.deselect()
-	
-        
+
+
     def createWidgets(self,top):
 	'''
 	Function that creates all the necessary Tkinter widgets. All the widgets are specified here while creation.
 	'''
-	
+
         top.geometry("800x180")
         top.resizable(True,True)
-        top.grid_columnconfigure(0,weight=1)
-        top.grid_columnconfigure(9,weight=1)
-        top.grid_rowconfigure(0,weight=1)
-        top.grid_rowconfigure(9,weight=1)
+        #top.grid_columnconfigure(0,weight=)
+        # top.grid_columnconfigure(9,weight=1)
+        # top.grid_rowconfigure(0,weight=1)
+        # top.grid_rowconfigure(9,weight=1)
 #	top.configure(background="white")
 
         self.optionA.set('Hello A!')
@@ -163,48 +168,48 @@ class Application(tk.Frame):
         self.nextButton = tk.Button(self, text='Next', command=lambda: self.load_question(top))
 
 	#Creating Radio buttons for options
-        self.radioButtonA = tk.Radiobutton(self,anchor='w', 
-                            textvariable=self.optionA, 
-                            variable = self.selected_answer, 
+        self.radioButtonA = tk.Radiobutton(self,anchor='w',
+                            textvariable=self.optionA,
+                            variable = self.selected_answer,
                             value = 'A',
                             command = lambda: self.set_ans(1)) # the radio button call 'set_ans()' with the number to set the 'selected_answer' variable
         self.radioButtonB = tk.Radiobutton(self,anchor='w',
-                            textvariable=self.optionB, 
+                            textvariable=self.optionB,
                             variable = self.selected_answer,
-                            value = 'B', 
+                            value = 'B',
                             command = lambda: self.set_ans(2))
         self.radioButtonC = tk.Radiobutton(self,anchor='w',
-                            textvariable=self.optionC, 
-                            variable = self.selected_answer, 
-                            value = 'C', 
+                            textvariable=self.optionC,
+                            variable = self.selected_answer,
+                            value = 'C',
                             command = lambda: self.set_ans(3))
         self.radioButtonD = tk.Radiobutton(self,anchor='w',
                             textvariable=self.optionD,
                             variable = self.selected_answer,
-                            value = 'D', 
+                            value = 'D',
                             command = lambda: self.set_ans(4))
 
-            
+
             #Creating the labels for options and questions
-            
+
         self.label_question = tk.Label(self,textvariable=self.question)
         self.label_score = tk.Label(self,text='Score:')
         self.label_score_value = tk.Label(self,textvariable=self.score,anchor='e')
 
             #Packing the widgets in the grid
 
-        self.label_question.grid(column=3,row=1,columnspan=4)
+        self.label_question.grid(column=2,row=1,columnspan=6,sticky=tk.W,padx=10,pady=20)
         self.label_score.grid(column=7,row=3)
-        self.label_score_value.grid(column=8,row=3,sticky=tk.N+tk.S+tk.W+tk.E)
-        self.radioButtonA.grid(column=2,row=4,sticky=tk.N+tk.S+tk.W+tk.E)
-        self.radioButtonB.grid(column=5,row=4,sticky=tk.N+tk.S+tk.W+tk.E)
-        self.radioButtonC.grid(column=2,row=6,sticky=tk.N+tk.S+tk.E+tk.W)
-        self.radioButtonD.grid(column=5,row=6,sticky=tk.N+tk.S+tk.E+tk.W)
-            
+        self.label_score_value.grid(column=8,row=3)
+        self.radioButtonA.grid(column=2,row=4,sticky=tk.W,ipadx=20)
+        self.radioButtonB.grid(column=5,row=4,sticky=tk.W)
+        self.radioButtonC.grid(column=2,row=6,sticky=tk.W,ipadx=20)
+        self.radioButtonD.grid(column=5,row=6,sticky=tk.W)
+
         self.quitButton.grid(column=4,row=8)
         self.nextButton.grid(column=3,row=8)
 
 print __name__
-        
+
 if __name__ == "__main__":
     main()
