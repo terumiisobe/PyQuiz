@@ -105,14 +105,17 @@ class Application(tk.Frame):
 	'''
         self.validate_ans() # call to check the answer before loading the next question
         randomindex = random.randint(0,len(self.questions["results"])-1) # generate random index to be picked from list
-        if randomindex not in self.question_index: # only proceed if the question has not already been picked up.
-            self.question_index.append(randomindex) # keep a track of the question indices.
-            pass
-        else:
-            randomindex = random.randint(0,len(self.questions["results"])-1)
-            self.question_index.append(randomindex)
-            print "Debug:"
-            print self.questions["results"][randomindex]["question"]
+        while len(self.questions["results"]) > len(self.question_index):
+            if randomindex not in self.question_index: # only proceed if the question has not already been picked up.
+                self.question_index.append(randomindex) # keep a track of the question indices.
+                break
+            else:
+                randomindex = random.randint(0,len(self.questions["results"])-1) # generate another random index
+                print "Debug (same question):"
+                print self.questions["results"][randomindex]["question"]
+        if len(self.questions["results"]) == len(self.question_index):
+            print "There are no more questions"
+
         self.correct_answer = self.questions["results"][randomindex]["correct_answer"] # parse the correct answer from JSON file and store it.
         #print self.correct_answer
         self.answers = self.questions["results"][randomindex]["incorrect_answers"] # parse the other incorrect answers
@@ -125,9 +128,9 @@ class Application(tk.Frame):
         self.optionD.set(self.answers.pop(random.randrange(len(self.answers))))
 
         length_question=len(self.question.get())  # get the length of the question
-        length_answer=len(self.optionC.get()) #get the lenght of one answer
+        length_answer=max(len(self.optionB.get()),len(self.optionD.get())) #get the lenght of bigger answer on the right
         lenght_score = len("Score: ") #get the lenght of "Score: "
-        width=str(10+7*(length_question+length_answer+lenght_score))
+        width=str(max(100+7*(length_question+length_answer+lenght_score), 400))
         top.geometry(width+"x180+500+300")	# change the width of the window according to the length of the question
 
         self.radioButtonA.deselect()
