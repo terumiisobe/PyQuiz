@@ -146,10 +146,10 @@ class Application(tk.Frame):
 
         top.geometry("800x180")
         top.resizable(True,True)
-        #top.grid_columnconfigure(0,weight=)
-        # top.grid_columnconfigure(9,weight=1)
-        # top.grid_rowconfigure(0,weight=1)
-        # top.grid_rowconfigure(9,weight=1)
+        top.grid_columnconfigure(0,weight=1)
+        top.grid_columnconfigure(9,weight=1)
+        top.grid_rowconfigure(0,weight=1)
+        top.grid_rowconfigure(9,weight=1)
 #	top.configure(background="white")
 
         self.optionA.set('Hello A!')
@@ -203,11 +203,11 @@ class Application(tk.Frame):
 
         self.label_question.grid(column=2,row=1,columnspan=6,sticky=tk.W,padx=10,pady=20)
         self.label_score.grid(column=7,row=3)
-        self.label_score_value.grid(column=8,row=3)
-        self.radioButtonA.grid(column=2,row=4,sticky=tk.W,ipadx=20)
-        self.radioButtonB.grid(column=5,row=4,sticky=tk.W)
-        self.radioButtonC.grid(column=2,row=6,sticky=tk.W,ipadx=20)
-        self.radioButtonD.grid(column=5,row=6,sticky=tk.W)
+        self.label_score_value.grid(column=8,row=3,sticky=tk.N+tk.S+tk.W+tk.E)
+        self.radioButtonA.grid(column=2,row=4,sticky=tk.N+tk.S+tk.W+tk.E)
+        self.radioButtonB.grid(column=5,row=4,sticky=tk.N+tk.S+tk.W+tk.E)
+        self.radioButtonC.grid(column=2,row=6,sticky=tk.N+tk.S+tk.E+tk.W)
+        self.radioButtonD.grid(column=5,row=6,sticky=tk.N+tk.S+tk.E+tk.W)
 
         self.quitButton.grid(column=4,row=8)
         self.nextButton.grid(column=3,row=8)
